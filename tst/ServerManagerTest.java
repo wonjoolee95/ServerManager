@@ -1,8 +1,7 @@
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ServerManagerTest {
     private ServerManager manager;
@@ -37,6 +36,19 @@ class ServerManagerTest {
         String hostName = manager.allocate("apibox");
 
         assertEquals("apibox2", hostName);
+    }
+
+    @Test
+    public void testAllocateAfterDeallocate() {
+        manager.allocate("apibox");
+        manager.allocate("apibox");
+        manager.allocate("apibox");
+        manager.deallocate("apibox2");
+        manager.allocate("apibox");
+
+        String hostName = manager.allocate("apibox");
+
+        assertEquals("apibox4", hostName);
     }
 
 }
